@@ -15,10 +15,10 @@ services:
     image: axoniq/axonserver
     container_name: axonserver
     hostname: axonserver
-    # volumes:
-    #   - ./.axonserver-data:/data
-    #   - ./.axonserver-events:/eventdata
-    #   - ./.axonserver-config:/config:ro
+    volumes:
+      - ./.axonserver-data:/data
+      - ./.axonserver-events:/eventdata
+      - ./.axonserver-config:/config:ro
     environment:
       - axoniq.axonserver.event.storage=/eventdata
       - axoniq.axonserver.snapshot.storage=/eventdata
