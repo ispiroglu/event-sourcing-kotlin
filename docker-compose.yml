@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./.mongodb/data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin123
+      - MONGO_INITDB_ROOT_PASSWORD=admin123
+
+  axonserver:
+    image: axoniq/axonserver
+    container_name: axonserver
+    hostname: axonserver
+    # volumes:
+    #   - ./.axonserver-data:/data
+    #   - ./.axonserver-events:/eventdata
+    #   - ./.axonserver-config:/config:ro
+    environment:
+      - axoniq.axonserver.event.storage=/eventdata
+      - axoniq.axonserver.snapshot.storage=/eventdata
+      - axoniq.axonserver.controldb-path=/data
+      - axoniq.axonserver.pid-file-location=/data
+      - axoniq.axonserver.standalone=true
+      - logging.file=/data/axonserver.log
+      - logging.file.max-history=10
+      - logging.file.max-size=10MB
+    ports:
+      - '8024:8024'
+      - '8124:8124'
+      - '8224:8224'
+
+secrets:
+  axonserver-properties:
+    file: .axonserver-config/config/axonserver.properties

@@ -1,0 +1,32 @@
+
+spring:
+  data:
+    mongodb:
+      authentication-database: "admin"
+      host: "localhost"
+      username: "admin123"
+      password: "admin123"
+      database: "customer-banking"
+      port: 27017
+
+  autoconfigure:
+    exclude:
+    - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      #- org.axonframework.springboot.autoconfig.JdbcAutoConfiguration
+  docker:
+    compose:
+      stop:
+        command: down
+
+
+
+axon:
+  axonserver:
+    servers: localhost:8124
+    context: default
+  eventhandling:
+    processors:
+      customer-banking:
+        mode: pooled
+        thread-count: 4
+        batch-size: 1
